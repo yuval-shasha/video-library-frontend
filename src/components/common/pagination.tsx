@@ -4,9 +4,12 @@ import * as _ from "lodash";
 const Pagination = (props: {
 	itemsCount: number;
 	pageSize: number;
-	onPageChange?: (page: number) => void;
+	currentPage: number;
+	onPageChange: (page: number) => void;
 }): React.JSX.Element => {
-	const { itemsCount, pageSize } = props;
+	const { itemsCount, pageSize, currentPage } = props;
+	console.log("Current Page: ", currentPage);
+
 	let pagesCount: number = Math.ceil(itemsCount / pageSize);
 	if (pagesCount === 1) return <></>;
 	const pages: number[] = _.range(1, pagesCount + 1);
@@ -15,8 +18,19 @@ const Pagination = (props: {
 		<nav>
 			<ul className="pagination">
 				{pages.map((page) => (
-					<li key={page} className="page-item">
-						<a className="page-link">{page}</a>
+					<li
+						key={page}
+						className={page === currentPage ? "page-item active" : "page-item"}
+					>
+						<a
+							className="page-link"
+							style={{
+								cursor: "pointer",
+							}}
+							onClick={() => props.onPageChange(page)}
+						>
+							{page}
+						</a>
 					</li>
 				))}
 			</ul>
