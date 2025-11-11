@@ -1,6 +1,9 @@
 import * as React from "react";
 
-const Like = (props: { liked?: boolean; onClick?: () => void }) => {
+const Like = (props: {
+	liked?: boolean;
+	onClick?: () => void;
+}): React.JSX.Element => {
 	let classes: string = "fa fa-heart";
 	if (!props.liked) classes += "-o";
 	return (

@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
 import Like from "./common/like";
+import Pagination from "./common/pagination";
 
 class Movies extends Component {
 	state = {
 		movies: getMovies(),
+		pageSize: 4,
 	};
 
 	// parameter movie is a dict
@@ -26,7 +28,11 @@ class Movies extends Component {
 		});
 	};
 
-	render() {
+	handlePageChange = (page: number): void => {
+		console.log("Page changed to ", page);
+	};
+
+	render(): React.ReactNode {
 		const { length: count } = this.state.movies;
 		if (count === 0) return <p>There are no movies in the database.</p>;
 		return (
@@ -67,6 +73,11 @@ class Movies extends Component {
 						))}
 					</tbody>
 				</table>
+				<Pagination
+					itemsCount={count}
+					pageSize={this.state.pageSize}
+					onPageChange={this.handlePageChange}
+				/>
 			</React.Fragment>
 		);
 	}
