@@ -30,12 +30,10 @@ class Movies extends Component<{}, MovieState> {
 	};
 
 	componentDidMount() {
-		const genres: Genre[] = [
-			{ _id: "all_genres", name: "All Genres" },
-			...getGenres(),
-		];
+		const allMoviesGenre: Genre = { _id: "all_genres", name: "All Genres" };
+		const genres: Genre[] = [allMoviesGenre, ...getGenres()];
 		const movies: Movie[] = getMovies();
-		this.setState({ movies, genres });
+		this.setState({ movies, genres, selectedGenre: allMoviesGenre });
 	}
 
 	// parameter movie is a dict

@@ -11,6 +11,7 @@ const ListGroup = <T extends ListGroupItem>(props: {
 	onItemSelect: (item: T) => void;
 }): React.JSX.Element => {
 	const { items, selectedItem, onItemSelect } = props;
+	const basicClassName: string = "list-group-item clickable";
 
 	return (
 		<ul className="list-group">
@@ -19,7 +20,7 @@ const ListGroup = <T extends ListGroupItem>(props: {
 					onClick={() => onItemSelect(item)}
 					key={item._id}
 					className={
-						item === selectedItem ? "list-group-item active" : "list-group-item"
+						item === selectedItem ? basicClassName + " active" : basicClassName
 					}
 				>
 					{item.name}

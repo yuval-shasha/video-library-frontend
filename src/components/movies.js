@@ -17,12 +17,10 @@ class Movies extends Component {
         sortColumn: { path: "title", order: "asc" },
     };
     componentDidMount() {
-        const genres = [
-            { _id: "all_genres", name: "All Genres" },
-            ...getGenres(),
-        ];
+        const allMoviesGenre = { _id: "all_genres", name: "All Genres" };
+        const genres = [allMoviesGenre, ...getGenres()];
         const movies = getMovies();
-        this.setState({ movies, genres });
+        this.setState({ movies, genres, selectedGenre: allMoviesGenre });
     }
     // parameter movie is a dict
     handleDelete = (movie) => {

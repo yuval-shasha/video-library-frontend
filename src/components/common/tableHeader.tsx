@@ -28,13 +28,32 @@ class TableHeader extends Component<{
 		return "";
 	};
 
+	renderSortIcon = (column: Column): React.JSX.Element => {
+		const { sortColumn } = this.props;
+		if (column.path !== sortColumn.path) {
+			return <></>;
+		}
+		if (sortColumn.order === "asc") {
+			return <i className="fa fa-sort-asc"></i>;
+		}
+		return <i className="fa fa-sort-desc"></i>;
+	};
+
 	render(): React.JSX.Element {
 		return (
 			<thead>
 				<tr>
 					{this.props.columns.map((column: Column) => (
-						<th key={column.path} onClick={() => this.raiseSort(column.path)}>
-							{this.renderHeader(column)}
+						<th
+							className={column.content instanceof Function ? "" : "clickable"}
+							key={column.path}
+							onClick={
+								column.content instanceof Function
+									? () => undefined
+									: () => this.raiseSort(column.path)
+							}
+						>
+							{this.renderHeader(column)} {this.renderSortIcon(column)}
 						</th>
 					))}
 				</tr>
