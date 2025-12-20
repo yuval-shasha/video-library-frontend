@@ -15,7 +15,8 @@ class Movies extends Component {
         selectedGenre: undefined,
     };
     componentDidMount() {
-        this.setState({ movies: getMovies(), genres: getGenres() });
+        const genres = [{ _id: "all_genres", name: "All Genres" }, ...getGenres()];
+        this.setState({ movies: getMovies(), genres });
     }
     // parameter movie is a dict
     handleDelete = (movie) => {
@@ -38,15 +39,18 @@ class Movies extends Component {
         this.setState({ currentPage: page });
     };
     handleGenreSelect = (genre) => {
-        this.setState({ selectedGenre: genre });
+        this.setState({ selectedGenre: genre, currentPage: 1 });
     };
     render() {
         const { length: count } = this.state.movies;
-        const { pageSize, currentPage, movies: allMovies } = this.state;
+        const { pageSize, currentPage, selectedGenre, movies: allMovies, } = this.state;
         if (count === 0)
             return _jsx("p", { children: "There are no movies in the database." });
-        const movies = paginate(allMovies, currentPage, pageSize);
-        return (_jsxs("div", { className: "row", children: [_jsx("div", { className: "col-2", children: _jsx(ListGroup, { items: this.state.genres, selectedItem: this.state.selectedGenre, onItemSelect: this.handleGenreSelect }) }), _jsxs("div", { className: "col", children: [_jsxs("p", { children: ["Showing ", count, " movies in the database."] }), _jsxs("table", { className: "table", children: [_jsx("thead", { children: _jsxs("tr", { children: [_jsx("th", { children: "Title" }), _jsx("th", { children: "Genre" }), _jsx("th", { children: "Stock" }), _jsx("th", { children: "Rate" }), _jsx("th", {})] }) }), _jsx("tbody", { children: movies.map((movie) => (_jsxs("tr", { children: [_jsx("td", { children: movie.title }), _jsx("td", { children: movie.genre.name }), _jsx("td", { children: movie.numberInStock }), _jsx("td", { children: movie.dailyRentalRate }), _jsx("td", { children: _jsx(Like, { liked: movie.liked, onClick: () => this.handleLike(movie) }) }), _jsx("td", { children: _jsx("button", { className: "deleteButton btn btn-danger btn-sm", onClick: () => this.handleDelete(movie), children: "Delete" }) })] }, movie._id))) })] }), _jsx(Pagination, { itemsCount: count, pageSize: pageSize, currentPage: currentPage, onPageChange: this.handlePageChange })] })] }));
+        const filteredMovies = selectedGenre && selectedGenre._id !== "all_genres"
+            ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+            : allMovies;
+        const movies = paginate(filteredMovies, currentPage, pageSize);
+        return (_jsxs("div", { className: "row", children: [_jsx("div", { className: "col-2", children: _jsx(ListGroup, { items: this.state.genres, selectedItem: this.state.selectedGenre, onItemSelect: this.handleGenreSelect }) }), _jsxs("div", { className: "col", children: [_jsxs("p", { children: ["Showing ", filteredMovies.length, " movies in the database."] }), _jsxs("table", { className: "table", children: [_jsx("thead", { children: _jsxs("tr", { children: [_jsx("th", { children: "Title" }), _jsx("th", { children: "Genre" }), _jsx("th", { children: "Stock" }), _jsx("th", { children: "Rate" }), _jsx("th", {})] }) }), _jsx("tbody", { children: movies.map((movie) => (_jsxs("tr", { children: [_jsx("td", { children: movie.title }), _jsx("td", { children: movie.genre.name }), _jsx("td", { children: movie.numberInStock }), _jsx("td", { children: movie.dailyRentalRate }), _jsx("td", { children: _jsx(Like, { liked: movie.liked, onClick: () => this.handleLike(movie) }) }), _jsx("td", { children: _jsx("button", { className: "deleteButton btn btn-danger btn-sm", onClick: () => this.handleDelete(movie), children: "Delete" }) })] }, movie._id))) })] }), _jsx(Pagination, { itemsCount: filteredMovies.length, pageSize: pageSize, currentPage: currentPage, onPageChange: this.handlePageChange })] })] }));
     }
 }
 export default Movies;

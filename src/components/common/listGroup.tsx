@@ -14,7 +14,6 @@ const ListGroup = <T extends ListGroupItem>(props: {
 
 	return (
 		<ul className="list-group">
-			<li className="list-group-item">All Genres</li>
 			{items.map((item: T) => (
 				<li
 					onClick={() => onItemSelect(item)}
