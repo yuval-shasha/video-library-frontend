@@ -1,8 +1,8 @@
 import { jsx as _jsx } from "react/jsx-runtime";
-const Like = (props) => {
+const Like = ({ liked, onClick }) => {
     let classes = "fa fa-heart";
-    if (!props.liked)
+    if (!liked)
         classes += "-o";
-    return (_jsx("i", { onClick: props.onClick, style: { cursor: "pointer" }, className: classes, "aria-hidden": "true" }));
+    return (_jsx("i", { onClick: onClick, style: { cursor: "pointer" }, className: classes, "aria-hidden": "true" }));
 };
 export default Like;

@@ -5,12 +5,17 @@ interface ListGroupItem {
 	name: string;
 }
 
-const ListGroup = <T extends ListGroupItem>(props: {
+interface ListGroupProps<T extends ListGroupItem> {
 	items: T[];
 	selectedItem?: T;
 	onItemSelect: (item: T) => void;
-}): React.JSX.Element => {
-	const { items, selectedItem, onItemSelect } = props;
+}
+
+const ListGroup = <T extends ListGroupItem>({
+	items,
+	selectedItem,
+	onItemSelect,
+}: ListGroupProps<T>): React.JSX.Element => {
 	const basicClassName: string = "list-group-item clickable";
 
 	return (

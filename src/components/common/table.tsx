@@ -4,14 +4,19 @@ import TableBody from "./tableBody";
 import { Column } from "../../types/column";
 import { SortColumn } from "../../types/sortColumn";
 
-const Table = <T,>(props: {
+interface TableProps<T> {
 	columns: Column[];
+	data: T[];
 	sortColumn: SortColumn;
 	onSort: (sortColumn: SortColumn) => void;
-	data: T[];
-}): React.JSX.Element => {
-	const { columns, sortColumn, onSort, data } = props;
+}
 
+const Table = <T,>({
+	columns,
+	data,
+	sortColumn,
+	onSort,
+}: TableProps<T>): React.JSX.Element => {
 	return (
 		<table className="table">
 			<TableHeader columns={columns} sortColumn={sortColumn} onSort={onSort} />

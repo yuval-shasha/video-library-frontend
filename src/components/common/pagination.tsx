@@ -1,14 +1,19 @@
 import * as React from "react";
 import * as _ from "lodash";
 
-const Pagination = (props: {
+interface PaginationProps {
 	itemsCount: number;
 	pageSize: number;
 	currentPage: number;
 	onPageChange: (page: number) => void;
-}): React.JSX.Element => {
-	const { itemsCount, pageSize, currentPage } = props;
+}
 
+const Pagination = ({
+	itemsCount,
+	pageSize,
+	currentPage,
+	onPageChange,
+}: PaginationProps): React.JSX.Element => {
 	let pagesCount: number = Math.ceil(itemsCount / pageSize);
 	if (pagesCount === 1) return <></>;
 	const pages: number[] = _.range(1, pagesCount + 1);
@@ -26,7 +31,7 @@ const Pagination = (props: {
 							style={{
 								cursor: "pointer",
 							}}
-							onClick={() => props.onPageChange(page)}
+							onClick={() => onPageChange(page)}
 						>
 							{page}
 						</a>

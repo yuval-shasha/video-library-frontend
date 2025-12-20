@@ -1,14 +1,16 @@
 import * as React from "react";
 
-const Like = (props: {
+interface LikeProps {
 	liked?: boolean;
 	onClick?: () => void;
-}): React.JSX.Element => {
+}
+
+const Like = ({ liked, onClick }: LikeProps): React.JSX.Element => {
 	let classes: string = "fa fa-heart";
-	if (!props.liked) classes += "-o";
+	if (!liked) classes += "-o";
 	return (
 		<i
-			onClick={props.onClick}
+			onClick={onClick}
 			style={{ cursor: "pointer" }}
 			className={classes}
 			aria-hidden="true"
