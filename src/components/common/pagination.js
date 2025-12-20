@@ -2,7 +2,6 @@ import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
 import * as _ from "lodash";
 const Pagination = (props) => {
     const { itemsCount, pageSize, currentPage } = props;
-    console.log("Current Page: ", currentPage);
     let pagesCount = Math.ceil(itemsCount / pageSize);
     if (pagesCount === 1)
         return _jsx(_Fragment, {});

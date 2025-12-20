@@ -8,7 +8,6 @@ const Pagination = (props: {
 	onPageChange: (page: number) => void;
 }): React.JSX.Element => {
 	const { itemsCount, pageSize, currentPage } = props;
-	console.log("Current Page: ", currentPage);
 
 	let pagesCount: number = Math.ceil(itemsCount / pageSize);
 	if (pagesCount === 1) return <></>;
