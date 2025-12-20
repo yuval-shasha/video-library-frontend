@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { Movie } from "../types/movie";
 import { SortColumn } from "../types/sortColumn";
-import TableBody from "./common/tableBody";
 import { Column } from "../types/column";
-import TableHeader from "./common/tableHeader";
 import Like from "./common/like";
+import Table from "./common/table";
 
 class MovieTable extends Component<{
 	movies: Movie[];
@@ -41,14 +40,12 @@ class MovieTable extends Component<{
 		const { movies } = this.props;
 
 		return (
-			<table className="table">
-				<TableHeader
-					columns={this.columns}
-					sortColumn={this.props.sortColumn}
-					onSort={this.props.onSort}
-				/>
-				<TableBody data={movies} columns={this.columns} />
-			</table>
+			<Table
+				columns={this.columns}
+				data={movies}
+				sortColumn={this.props.sortColumn}
+				onSort={this.props.onSort}
+			/>
 		);
 	}
 }

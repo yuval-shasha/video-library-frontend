@@ -1,8 +1,7 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { jsx as _jsx } from "react/jsx-runtime";
 import { Component } from "react";
-import TableBody from "./common/tableBody";
-import TableHeader from "./common/tableHeader";
 import Like from "./common/like";
+import Table from "./common/table";
 class MovieTable extends Component {
     columns = [
         { content: "Title", path: "title" },
@@ -20,7 +19,7 @@ class MovieTable extends Component {
     ];
     render() {
         const { movies } = this.props;
-        return (_jsxs("table", { className: "table", children: [_jsx(TableHeader, { columns: this.columns, sortColumn: this.props.sortColumn, onSort: this.props.onSort }), _jsx(TableBody, { data: movies, columns: this.columns })] }));
+        return (_jsx(Table, { columns: this.columns, data: movies, sortColumn: this.props.sortColumn, onSort: this.props.onSort }));
     }
 }
 export default MovieTable;
