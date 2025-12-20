@@ -1,11 +1,11 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
-import Like from "./common/like";
 import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
 import ListGroup from "./common/listGroup";
 import { getGenres } from "../services/fakeGenreService";
+import MovieTable from "./movieTable";
 class Movies extends Component {
     state = {
         movies: [],
@@ -50,7 +50,7 @@ class Movies extends Component {
             ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
             : allMovies;
         const movies = paginate(filteredMovies, currentPage, pageSize);
-        return (_jsxs("div", { className: "row", children: [_jsx("div", { className: "col-2", children: _jsx(ListGroup, { items: this.state.genres, selectedItem: this.state.selectedGenre, onItemSelect: this.handleGenreSelect }) }), _jsxs("div", { className: "col", children: [_jsxs("p", { children: ["Showing ", filteredMovies.length, " movies in the database."] }), _jsxs("table", { className: "table", children: [_jsx("thead", { children: _jsxs("tr", { children: [_jsx("th", { children: "Title" }), _jsx("th", { children: "Genre" }), _jsx("th", { children: "Stock" }), _jsx("th", { children: "Rate" }), _jsx("th", {})] }) }), _jsx("tbody", { children: movies.map((movie) => (_jsxs("tr", { children: [_jsx("td", { children: movie.title }), _jsx("td", { children: movie.genre.name }), _jsx("td", { children: movie.numberInStock }), _jsx("td", { children: movie.dailyRentalRate }), _jsx("td", { children: _jsx(Like, { liked: movie.liked, onClick: () => this.handleLike(movie) }) }), _jsx("td", { children: _jsx("button", { className: "deleteButton btn btn-danger btn-sm", onClick: () => this.handleDelete(movie), children: "Delete" }) })] }, movie._id))) })] }), _jsx(Pagination, { itemsCount: filteredMovies.length, pageSize: pageSize, currentPage: currentPage, onPageChange: this.handlePageChange })] })] }));
+        return (_jsxs("div", { className: "row", children: [_jsx("div", { className: "col-2", children: _jsx(ListGroup, { items: this.state.genres, selectedItem: this.state.selectedGenre, onItemSelect: this.handleGenreSelect }) }), _jsxs("div", { className: "col", children: [_jsxs("p", { children: ["Showing ", filteredMovies.length, " movies in the database."] }), _jsx(MovieTable, { movies: movies, onDelete: this.handleDelete, onLike: this.handleLike }), _jsx(Pagination, { itemsCount: filteredMovies.length, pageSize: pageSize, currentPage: currentPage, onPageChange: this.handlePageChange })] })] }));
     }
 }
 export default Movies;
