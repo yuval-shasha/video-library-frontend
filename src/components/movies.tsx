@@ -13,6 +13,7 @@ interface MovieState {
 	genres: Genre[];
 	pageSize: number;
 	currentPage: number;
+	selectedGenre?: Genre;
 }
 
 class Movies extends Component {
@@ -21,6 +22,7 @@ class Movies extends Component {
 		genres: [],
 		pageSize: 4,
 		currentPage: 1,
+		selectedGenre: undefined,
 	};
 
 	componentDidMount() {
@@ -51,7 +53,7 @@ class Movies extends Component {
 	};
 
 	handleGenreSelect = (genre: Genre): void => {
-		console.log("Selected Genre: ", genre);
+		this.setState({ selectedGenre: genre });
 	};
 
 	render(): React.ReactNode {
@@ -66,6 +68,7 @@ class Movies extends Component {
 				<div className="col-2">
 					<ListGroup
 						items={this.state.genres}
+						selectedItem={this.state.selectedGenre}
 						onItemSelect={this.handleGenreSelect}
 					/>
 				</div>
