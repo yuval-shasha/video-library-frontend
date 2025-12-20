@@ -1,23 +1,26 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { Component } from "react";
+import TableBody from "./common/tableBody";
+import TableHeader from "./common/tableHeader";
 import Like from "./common/like";
 class MovieTable extends Component {
-    raiseSort = (sortField) => {
-        const sortColumn = {
-            ...this.props.sortColumn,
-        };
-        if (sortColumn.path === sortField) {
-            sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
-        }
-        else {
-            sortColumn.path = sortField;
-            sortColumn.order = "asc";
-        }
-        this.props.onSort(sortColumn);
-    };
+    columns = [
+        { content: "Title", path: "title" },
+        { content: "Genre", path: "genre.name" },
+        { content: "Stock", path: "numberInStock" },
+        { content: "Rate", path: "dailyRentalRate" },
+        {
+            content: (movie) => (_jsx(Like, { liked: movie.liked, onClick: () => this.props.onLike(movie) })),
+            path: "like",
+        },
+        {
+            content: (movie) => (_jsx("button", { className: "deleteButton btn btn-danger btn-sm", onClick: () => this.props.onDelete(movie), children: "Delete" })),
+            path: "delete",
+        },
+    ];
     render() {
-        const { movies, onDelete, onLike } = this.props;
-        return (_jsxs("table", { className: "table", children: [_jsx("thead", { children: _jsxs("tr", { children: [_jsx("th", { onClick: () => this.raiseSort("title"), children: "Title" }), _jsx("th", { onClick: () => this.raiseSort("genre.name"), children: "Genre" }), _jsx("th", { onClick: () => this.raiseSort("numberInStock"), children: "Stock" }), _jsx("th", { onClick: () => this.raiseSort("dailyRentalRate"), children: "Rate" }), _jsx("th", {})] }) }), _jsx("tbody", { children: movies.map((movie) => (_jsxs("tr", { children: [_jsx("td", { children: movie.title }), _jsx("td", { children: movie.genre.name }), _jsx("td", { children: movie.numberInStock }), _jsx("td", { children: movie.dailyRentalRate }), _jsx("td", { children: _jsx(Like, { liked: movie.liked, onClick: () => onLike(movie) }) }), _jsx("td", { children: _jsx("button", { className: "deleteButton btn btn-danger btn-sm", onClick: () => onDelete(movie), children: "Delete" }) })] }, movie._id))) })] }));
+        const { movies } = this.props;
+        return (_jsxs("table", { className: "table", children: [_jsx(TableHeader, { columns: this.columns, sortColumn: this.props.sortColumn, onSort: this.props.onSort }), _jsx(TableBody, { data: movies, columns: this.columns })] }));
     }
 }
 export default MovieTable;
