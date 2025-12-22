@@ -22,10 +22,7 @@ class TableHeader extends Component<{
 	};
 
 	renderHeader = (column: Column): string => {
-		if (typeof column.content === "string") {
-			return column.content;
-		}
-		return "";
+		return column.label;
 	};
 
 	renderSortIcon = (column: Column): React.JSX.Element => {
@@ -45,10 +42,10 @@ class TableHeader extends Component<{
 				<tr>
 					{this.props.columns.map((column: Column) => (
 						<th
-							className={column.content instanceof Function ? "" : "clickable"}
+							className={column.label === "" ? "" : "clickable"}
 							key={column.path}
 							onClick={
-								column.content instanceof Function
+								column.label === ""
 									? () => undefined
 									: () => this.raiseSort(column.path)
 							}

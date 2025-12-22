@@ -15,10 +15,7 @@ class TableHeader extends Component {
         this.props.onSort(sortColumn);
     };
     renderHeader = (column) => {
-        if (typeof column.content === "string") {
-            return column.content;
-        }
-        return "";
+        return column.label;
     };
     renderSortIcon = (column) => {
         const { sortColumn } = this.props;
@@ -31,7 +28,7 @@ class TableHeader extends Component {
         return _jsx("i", { className: "fa fa-sort-desc" });
     };
     render() {
-        return (_jsx("thead", { children: _jsx("tr", { children: this.props.columns.map((column) => (_jsxs("th", { className: column.content instanceof Function ? "" : "clickable", onClick: column.content instanceof Function
+        return (_jsx("thead", { children: _jsx("tr", { children: this.props.columns.map((column) => (_jsxs("th", { className: column.label === "" ? "" : "clickable", onClick: column.label === ""
                         ? () => undefined
                         : () => this.raiseSort(column.path), children: [this.renderHeader(column), " ", this.renderSortIcon(column)] }, column.path))) }) }));
     }
