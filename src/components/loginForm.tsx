@@ -7,19 +7,43 @@ interface Account {
 	password: string;
 }
 
+interface Errors {
+	[key: string]: string;
+}
+
 class LoginForm extends Component {
 	state = {
 		account: {
 			username: "",
 			password: "",
 		} as Account,
+		errors: {} as Errors,
 	};
 
-	handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
+	validate = (): Errors => {
+		const errors: Errors = {};
+
+		const { account } = this.state;
+		if (account.username.trim() === "")
+			errors.username = "Username is required.";
+		if (account.password.trim() === "")
+			errors.password = "Password is required.";
+
+		return Object.keys(errors).length === 0 ? {} : errors;
+	};
+
+	handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
 		event.preventDefault();
 
-		console.log("Login submitted");
-	}
+		const errors: Errors = this.validate();
+
+		this.setState({ errors: errors });
+
+		if (Object.keys(errors).length > 0) return;
+
+		// Call the server
+		console.log("Submitted");
+	};
 
 	handleChange = ({
 		currentTarget: input,
@@ -31,7 +55,7 @@ class LoginForm extends Component {
 	};
 
 	render(): React.JSX.Element {
-		const { account } = this.state;
+		const { account, errors } = this.state;
 
 		return (
 			<div>
@@ -41,12 +65,14 @@ class LoginForm extends Component {
 						name="username"
 						label="Username"
 						value={account.username}
+						error={errors.username}
 						onChange={this.handleChange}
 					/>
 					<Input
 						name="password"
 						label="Password"
 						value={account.password}
+						error={errors.password}
 						onChange={this.handleChange}
 					/>
 					<button className="btn btn-primary">Login</button>
